@@ -36,12 +36,12 @@ RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') \
 	tar -xzvf "/nginx_cookie_flag.tar.gz" && \
 	NGINX_COOKIE_FLAGDIR="/nginx_cookie_flag_module-${NGINX_COOKIE_FLAG}" && \
 	cd /usr/src/nginx-$NGINX_VERSION && \
-	./configure --with-compat $CONFARGS --add-module=$NGINX_COOKIE_FLAGDIR && \
+	./configure --with-compat $CONFARGS --add-dynamic-module=$NGINX_COOKIE_FLAGDIR && \
 	make && make install
 
 FROM nginx:alpine
 # Extract the dynamic module NGINX_COOKIE_FLAG from the builder image
-COPY --from=builder /usr/local/nginx/modules/ngx_http_cookie_flag_filter_module.so /usr/local/nginx/modules/ngx_http_cookie_flag_filter_module.so
+COPY --from=builder /usr/local/nginx/modules/ngx_http_cookie_flag_filter_module.so /etc/nginx/modules/ngx_http_cookie_flag_filter_module.so
 RUN rm /etc/nginx/conf.d/default.conf
 
 COPY nginx.conf /etc/nginx/nginx.conf
