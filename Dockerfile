@@ -42,7 +42,6 @@ RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') \
 FROM nginx:1.17.0-alpine
 # Extract the dynamic module NGINX_COOKIE_FLAG from the builder image
 COPY --from=builder /usr/local/nginx/modules/ngx_http_cookie_flag_filter_module.so /etc/nginx/modules/ngx_http_cookie_flag_filter_module.so
-RUN chmod 777 /etc/nginx/modules/ngx_http_cookie_flag_filter_module.so
 RUN rm /etc/nginx/conf.d/default.conf
 
 COPY nginx.conf /etc/nginx/nginx.conf
